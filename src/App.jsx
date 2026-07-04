@@ -13,7 +13,7 @@ import GiftCardFAQ from './components/GiftCardFAQ.jsx';
 import CheckoutPage from './components/CheckoutPage.jsx';
 
 // Inline mock data to serve as direct fallback if backend fetch fails
-import mockProducts from '../../backend/data/mockProducts.js';
+import mockProducts from './data/mockProducts.js';
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
