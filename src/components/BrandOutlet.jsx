@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config.js';
 import { ArrowLeft, ExternalLink, ShieldCheck, AlertCircle } from 'lucide-react';
 
 const BrandOutlet = ({ onBack }) => {
@@ -9,7 +10,7 @@ const BrandOutlet = ({ onBack }) => {
   const fetchBrands = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/brands');
+      const res = await fetch(`${API_BASE_URL}/api/brands`);
       if (!res.ok) throw new Error('Failed to load brands.');
       const data = await res.json();
       setBrands(data);

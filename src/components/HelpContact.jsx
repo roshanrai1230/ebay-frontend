@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config.js';
 import { Send, ArrowLeft, CheckCircle2, MessageSquare, LifeBuoy, AlertCircle } from 'lucide-react';
 
 const HelpContact = ({ onBack }) => {
@@ -22,7 +23,7 @@ const HelpContact = ({ onBack }) => {
     setIsSubmitting(true);
     setErrorMsg('');
     try {
-      const res = await fetch('/api/inquiries', {
+      const res = await fetch(`${API_BASE_URL}/api/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

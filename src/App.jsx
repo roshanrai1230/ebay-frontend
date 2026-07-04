@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from './config.js';
 import Navbar from './components/Navbar.jsx';
 import HeroSlider from './components/HeroSlider.jsx';
 import CategoryCircleList from './components/CategoryCircleList.jsx';
@@ -51,7 +52,7 @@ function App() {
   const fetchProducts = async (query = '', category = 'All Categories') => {
     setIsLoading(true);
     try {
-      let url = '/api/products';
+      let url = `${API_BASE_URL}/api/products`;
       const params = [];
       
       if (query) params.push(`q=${encodeURIComponent(query)}`);
@@ -99,7 +100,7 @@ function App() {
   // Fetch sliders from API
   const fetchSliders = async () => {
     try {
-      const response = await fetch('/api/sliders');
+      const response = await fetch(`${API_BASE_URL}/api/sliders`);
       if (!response.ok) throw new Error('API error');
       const data = await response.json();
       setSliders(data);
@@ -112,7 +113,7 @@ function App() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/products/categories');
+        const response = await fetch(`${API_BASE_URL}/api/products/categories`);
         if (!response.ok) throw new Error('API error');
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
@@ -152,7 +153,7 @@ function App() {
   // Fetch product detail by ID (increments watchers count dynamically on click!)
   const handleSelectProduct = async (product) => {
     try {
-      const res = await fetch(`/api/products/${product._id}`);
+      const res = await fetch(`${API_BASE_URL}/api/products/${product._id}`);
       if (!res.ok) throw new Error('Details fetch failed');
       const updatedProduct = await res.json();
       
@@ -216,7 +217,7 @@ function App() {
     try {
       // 1. Process inventory stock decrement first
       for (const item of cartItems) {
-        const res = await fetch(`/api/products/${item._id}/purchase`, {
+        const res = await fetch(`${API_BASE_URL}/api/products/${item._id}/purchase`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: item.quantity })
@@ -228,7 +229,7 @@ function App() {
       }
 
       // 2. Submit order details to backend orders route
-      const orderRes = await fetch('/api/orders', {
+      const orderRes = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)

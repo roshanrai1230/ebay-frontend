@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config.js';
 import { Upload, Trash2, Home, Package, Sliders, PlusCircle, AlertCircle, MessageSquare, Mail, Clock, Check, ShieldCheck, Globe, ShoppingBag } from 'lucide-react';
 
 const AdminPanel = ({ onBack }) => {
@@ -61,27 +62,27 @@ const AdminPanel = ({ onBack }) => {
     setIsLoading(true);
     try {
       // Load products
-      const pRes = await fetch('/api/products');
+      const pRes = await fetch(`${API_BASE_URL}/api/products`);
       const pData = await pRes.json();
       setProducts(pData);
 
       // Load sliders
-      const sRes = await fetch('/api/sliders');
+      const sRes = await fetch(`${API_BASE_URL}/api/sliders`);
       const sData = await sRes.json();
       setSliders(sData);
 
       // Load inquiries
-      const iRes = await fetch('/api/inquiries');
+      const iRes = await fetch(`${API_BASE_URL}/api/inquiries`);
       const iData = await iRes.json();
       setInquiries(iData);
 
       // Load brands
-      const bRes = await fetch('/api/brands');
+      const bRes = await fetch(`${API_BASE_URL}/api/brands`);
       const bData = await bRes.json();
       setBrands(bData);
 
       // Load orders
-      const oRes = await fetch('/api/orders');
+      const oRes = await fetch(`${API_BASE_URL}/api/orders`);
       const oData = await oRes.json();
       setOrders(oData);
     } catch (error) {
@@ -179,7 +180,7 @@ const AdminPanel = ({ onBack }) => {
     };
 
     try {
-      const res = await fetch('/api/products', {
+      const res = await fetch(`${API_BASE_URL}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -221,7 +222,7 @@ const AdminPanel = ({ onBack }) => {
     }
 
     try {
-      const res = await fetch('/api/sliders', {
+      const res = await fetch(`${API_BASE_URL}/api/sliders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(sliderForm)
@@ -257,7 +258,7 @@ const AdminPanel = ({ onBack }) => {
     }
 
     try {
-      const res = await fetch('/api/brands', {
+      const res = await fetch(`${API_BASE_URL}/api/brands`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(brandForm)
@@ -281,7 +282,7 @@ const AdminPanel = ({ onBack }) => {
   // Update order delivery/shipment status
   const handleUpdateOrderStatus = async (id, status) => {
     try {
-      const res = await fetch(`/api/orders/${id}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/orders/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status })
@@ -299,7 +300,7 @@ const AdminPanel = ({ onBack }) => {
   const handleDeleteProduct = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
-      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE_URL}/api/products/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setProducts((prev) => prev.filter((p) => p._id !== id));
       triggerAlert('Product deleted successfully!');
@@ -312,7 +313,7 @@ const AdminPanel = ({ onBack }) => {
   const handleDeleteSlider = async (id) => {
     if (!window.confirm('Are you sure you want to delete this homepage banner?')) return;
     try {
-      const res = await fetch(`/api/sliders/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE_URL}/api/sliders/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setSliders((prev) => prev.filter((s) => s._id !== id));
       triggerAlert('Slider banner deleted successfully!');
@@ -325,7 +326,7 @@ const AdminPanel = ({ onBack }) => {
   const handleResolveInquiry = async (id) => {
     if (!window.confirm('Are you sure you want to mark this inquiry as resolved?')) return;
     try {
-      const res = await fetch(`/api/inquiries/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE_URL}/api/inquiries/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setInquiries((prev) => prev.filter((inq) => inq._id !== id));
       triggerAlert('Inquiry resolved and cleared successfully!');
@@ -338,7 +339,7 @@ const AdminPanel = ({ onBack }) => {
   const handleDeleteBrand = async (id) => {
     if (!window.confirm('Are you sure you want to delete this brand outlet?')) return;
     try {
-      const res = await fetch(`/api/brands/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE_URL}/api/brands/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setBrands((prev) => prev.filter((b) => b._id !== id));
       triggerAlert('Brand deleted successfully!');
@@ -351,7 +352,7 @@ const AdminPanel = ({ onBack }) => {
   const handleDeleteOrder = async (id) => {
     if (!window.confirm('Are you sure you want to delete/cancel this order?')) return;
     try {
-      const res = await fetch(`/api/orders/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE_URL}/api/orders/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Delete failed');
       setOrders(prev => prev.filter(o => o._id !== id));
       triggerAlert('Order entry deleted from admin successfully!');
